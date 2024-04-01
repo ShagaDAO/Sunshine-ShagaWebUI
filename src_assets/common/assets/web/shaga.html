@@ -16,7 +16,10 @@
         </header>
       </div>
       <div>
-        
+        <pre>{{ JSON.stringify(apps, null, 2) }}</pre>
+        <pre>{{ JSON.stringify(config, null, 2) }}</pre>
+        <pre>{{ JSON.stringify(configLocale, null, 2) }}</pre>
+        <pre>{{ logs }}</pre>
       </div>
     </div>
   </main>
@@ -32,21 +35,40 @@
     },
     data() {
       return {
-        error: null,
-        success: false,
-        loading: false,
-        passwordData: {
-          newUsername: "sunshine",
-          newPassword: "",
-          confirmNewPassword: "",
-        },
+        apps: [],        
+        config: {},
+        logs: '',
+        configLocale: {}
       };
     },
     methods: {
-      save() {
-        console.log(123)
-      },
+      
     },
+    created() {
+      fetch("/api/apps")
+        .then((r) => r.json())
+        .then((r) => {
+          console.log(r);
+          this.apps = r.apps;
+        });
+
+      fetch("/api/config")
+        .then(r => r.json())
+        .then(r => this.config = r);
+
+      fetch("/api/logs",)
+        .then((r) => r.text())
+        .then((r) => {
+          this.logs = r;
+        });
+
+      fetch("/api/configLocale",)
+        .then((r) => r.json())
+        .then((r) => {
+          this.logs = r;
+        });
+        
+    }
   });
 
   app.mount('#app');
