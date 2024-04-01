@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- header %>
+</head>
+
+<body id="app" v-cloak>
+  <main role="main" style="max-width: 1200px; margin: 1em auto">
+    <div class="d-flex gap-4">
+      <div class="card p-2">
+        <header>
+          <h1 class="mb-0">
+            Shaga Web UI
+          </h1>
+        </header>
+      </div>
+      <div>
+        
+      </div>
+    </div>
+  </main>
+</body>
+
+<script type="module">
+  import { createApp } from "vue"
+  
+
+  let app = createApp({
+    components: {
+      
+    },
+    data() {
+      return {
+        error: null,
+        success: false,
+        loading: false,
+        passwordData: {
+          newUsername: "sunshine",
+          newPassword: "",
+          confirmNewPassword: "",
+        },
+      };
+    },
+    methods: {
+      save() {
+        console.log(123)
+      },
+    },
+  });
+
+  app.mount('#app');
+</script>

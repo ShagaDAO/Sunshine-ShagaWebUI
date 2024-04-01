@@ -28,6 +28,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/troubleshooting"><i class="fas fa-fw fa-info"></i> {{ $t('navbar.troubleshoot') }}</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/shaga"><i class="fas fa-fw fa-info"></i> Shaga Web UI</a>
+                    </li>
                 </ul>
             </div>
         </div>

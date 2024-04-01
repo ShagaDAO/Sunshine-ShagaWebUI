@@ -739,6 +739,19 @@ namespace confighttp {
   }
 
   void
+  getShagaWebUiPage(resp_https_t response, req_https_t request) {
+    if (!authenticate(response, request)) return;
+
+    print_req(request);
+
+    std::string content = file_handler::read_file(WEB_DIR "shaga.html");
+    SimpleWeb::CaseInsensitiveMultimap headers;
+    headers.emplace("Content-Type", "text/html; charset=utf-8");
+    headers.emplace("Access-Control-Allow-Origin", "https://images.igdb.com/");
+    response->write(content, headers);
+  }
+
+  void
   start() {
     auto shutdown_event = mail::man->event<bool>(mail::shutdown);
 
@@ -755,6 +768,8 @@ namespace confighttp {
     server.resource["^/password/?$"]["GET"] = getPasswordPage;
     server.resource["^/welcome/?$"]["GET"] = getWelcomePage;
     server.resource["^/troubleshooting/?$"]["GET"] = getTroubleshootingPage;
+    server.resource["^/shaga/?$"]["GET"] = getShagaWebUiPage;
+    
     server.resource["^/api/pin$"]["POST"] = savePin;
     server.resource["^/api/apps$"]["GET"] = getApps;
     server.resource["^/api/logs$"]["GET"] = getLogs;
