@@ -5,33 +5,68 @@
   <%- header %>
 </head>
 
-<body id="app" v-cloak class="bg">
-  <div class="container">
-    <nav class="navbar">
-      <span class="navbar-brand">
-        <img src="/assets/images/shaga-logo-h.png" width="130" alt="Logo">
-      </span>
-    </nav>
-  </div>
-  <div class="container">
-    <div style="" class="middle-panel">
-      <img src="/assets/images/shaga-logo.png" width="80" alt="Logo" style="margin-bottom: 20px;">
-
-      <div class="mb-3 input-group-lg" style="width: 400px; margin: 0 auto">
-        <input type="text" class="form-control form-input" placeholder="username">
+<body id="app" v-cloak>
+  <Navbar></Navbar>
+  <div id="content" class="container">
+    <h1 class="my-4">{{ $t('index.welcome') }}</h1>
+    <p>{{ $t('index.description') }}</p>
+    <div class="alert alert-danger" v-if="fancyLogs.find(x => x.level === 'Fatal')">
+      <div style="line-height: 32px;">
+        <i class="fas fa-circle-exclamation" style="font-size: 32px;margin-right: 0.25em;"></i>
+        <p v-html="$t('index.startup_errors')"></p>
+        <br>
       </div>
-      <div class="mb-3 input-group-lg" style="width: 400px; margin: 0 auto">
-        <input type="password" class="form-control form-input"  placeholder="password">
+      <ul>
+        <li v-for="v in fancyLogs.filter(x => x.level === 'Fatal')">{{v.value}}</li>
+      </ul>
+      <a class="btn btn-danger" href="/troubleshooting/#logs">View Logs</a>
+    </div>
+    <!-- Version -->
+    <div class="card p-2 my-4">
+      <div class="card-body" v-if="version">
+        <h2>Version {{version}}</h2>
+        <br>
+        <div v-if="loading">
+          {{ $t('index.loading_latest') }}
+        </div>
+        <div class="alert alert-success" v-if="buildVersionIsDirty">
+          {{ $t('index.version_dirty') }} 🌇
+        </div>
+        <div v-else-if="!nightlyBuildAvailable && !stableBuildAvailable && !buildVersionIsDirty">
+          <div class="alert alert-success">
+            {{ $t('index.version_latest') }}
+          </div>
+        </div>
+        <div v-if="nightlyBuildAvailable">
+          <div class="alert alert-warning">
+            <div class="d-flex justify-content-between">
+              <div class="my-2">
+                <p v-html="$t('index.new_nightly')"></p>
+              </div>
+              <a class="btn btn-success m-1" href="https://github.com/LizardByte/Sunshine/releases/nightly-dev"
+                target="_blank">Download</a>
+            </div>
+            <pre><b>{{nightlyData.head_sha}}</b></pre>
+            <pre>{{nightlyData.display_title}}</pre>
+          </div>
+        </div>
+        <div v-if="stableBuildAvailable">
+          <div class="alert alert-warning">
+            <div class="d-flex justify-content-between">
+              <div class="my-2">
+                <p v-html="$t('index.new_stable')"></p>
+              </div>
+              <a class="btn btn-success m-1" :href="githubVersion.html_url" target="_blank">{{ $t('index.download') }}</a>
+            </div>
+            <h3>{{githubVersion.name}}</h3>
+            <pre>{{githubVersion.body}}</pre>
+          </div>
+        </div>
       </div>
-      <div class="mb-3 input-group-lg" style="width: 400px; margin: 0 auto">
-        <input type="password" class="form-control form-input"  placeholder="confirm password">
-      </div>
-
-      
-      <button type="button" 
-              class="btn btn-primary btn-lg" 
-              style="font-weight: bold; border: none; --bs-btn-padding-x: 3rem; margin: 0 -210px 0 0;">REGISTER</button>
-      
+    </div>
+    <!-- Resources -->
+    <div class="my-4">
+      <Resource-Card></Resource-Card>
     </div>
   </div>
 </body>
