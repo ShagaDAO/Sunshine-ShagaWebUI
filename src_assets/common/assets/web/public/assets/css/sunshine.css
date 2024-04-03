@@ -25,10 +25,9 @@ html {
   min-width: 500px;
   position: absolute;
   text-align: center;
-  top: 250px;
+  top: 110px;
   left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 2.5rem;
+  transform: translate(-50%, 0%);
 }
 @media (max-width: 500px) {
   .middle-panel {
